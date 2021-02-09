@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> pii;
+
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    int t;
+    cin >> t;
+    while(t--){
+        int n, k;
+        cin >> n >> k;
+        vector<int> a(n);
+        int pref[n+1];
+        for(int i = 0; i < n;i ++){
+            cin >> a[i];
+        }
+        bool isPeak[n];
+        memset(isPeak, false, sizeof(isPeak));
+        pref[0] = 0;
+        for(int i = 1; i < n;i ++){
+            pref[i] = pref[i-1];
+            
+            if(i != n-1 && a[i] > a[i-1] && a[i] > a[i+1]){
+                isPeak[i] = true;
+                pref[i]++;
+            }
+        }
+        
+        //fur(int i = 0; i < n;i ++)cout << pref[i] << endl;
+        int max = 0;
+        int currL = 1;
+        for(int i = 0; i + k <= n; i ++){
+            int peaks = pref[i+k-1]-pref[i];
+            if(isPeak[i])peaks--;
+            if(isPeak[i+k-1])peaks--;
+            if(peaks > max){
+                max = peaks;
+                currL = i+1;
+            }
+        }
+        cout << max + 1<< " " << currL << endl;
+    }
+
+
+}
+

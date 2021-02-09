@@ -1,0 +1,104 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> pii;
+
+int shoestring(int x1, int y1, int x2, int y2, int x3, int y3){
+    return (x1*y2)+(x2*y3)+(x3*y1) - (y1*x2)-(y2*x3)-(y3*x1);
+}
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    int N;
+    cin >> N;
+    int xCords[N];
+    int yCords[N];
+    for(int i = 0; i < N;i ++){
+        cin >> xCords[i] >> yCords[i];
+    }
+    int angles[N];
+    angles[0] = -3;
+    for(int i = 1; i < N; i++){
+        int prev = i-1;
+        if(prev < 0)prev = N-1;
+        int next = i+1;
+        if(next == N) next  =0;
+        int area = shoestring(xCords[prev],yCords[prev],xCords[i],yCords[i],xCords[next],yCords[next]);
+        if(area < 0 ){
+            angles[i] = -1;
+        }
+        else{
+            angles[i] = -2;
+        }
+    }
+    int dist[N+1];
+    for(int i = 0; i < N;i ++){
+        if(xCords[(i+1)%N] != xCords[i]){
+            dist[i] = abs(xCords[(i+1)%N] - xCords[i]);
+        }
+        else{
+            dist[i] = abs(yCords[(i+1)%N] - yCords[i]);
+        }
+    }
+    vector<string> bigString;
+    for(int i = 0; i < N; i++){
+        bigString.push_back(to_string(angles[i]));
+        bigString.push_back(to_string(dist[i]));
+    }
+    map<string, int> occurence;
+    for(int i = 0; i < (int)bigString.size(); i++){
+        string substr = bigString[i];
+        if(occurence[substr] != 0){
+            occurence[substr]++;
+        }
+        else{
+            occurence[substr] = 1;
+        }
+        for(int length = 1; length < (int)bigString.size(); length++){
+            substr += bigString[(i+length) % bigString.size()];
+            if(occurence[substr] != 0){
+                occurence[substr]++;
+            }
+            else{
+                occurence[substr] = 1;
+            }
+        }
+    }
+    int clockwise[N];
+    int counterClock[N];
+    for(int i = 1; i < N;i ++){
+        counterClock[i] = counterClock[i-1] + dist[i-1];
+
+    }
+    for(int i = N-1; i > 0; i --){
+        if(i != N-1){
+            clockwise[i] += clockwise[i+1];
+        }
+        clockwise[i] += dist[i];
+    }
+    int worstAnswer = 0;
+    for(int i = 1; i < N; i++){
+        string s = to_string(angles[i]);
+        int j = i;
+        int distance = 0;
+        while(occurence[s] > 1){
+            s += dist[j];
+            distance += dist[j];
+            j++;
+            if(j == N){
+                j = 0;
+                break;
+            }
+            s += to_string(angles[j]);
+            
+        }
+        int lightsOutDistance = distance + min(clockwise[j], counterClock[j]);
+        int lightsOnDistance = min(clockwise[i], counterClock[i]);
+        worstAnswer = max(worstAnswer, lightsOutDistance - lightsOnDistance);
+    }
+    cout << worstAnswer << endl;
+
+
+}
+

@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define f first
+#define s second
+#define pb push_back
+#define mp make_pair
+typedef long long ll;
+typedef pair<int, int> pii;
+
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    int N;
+    cin >> N;
+    int MOD = 1000000007;
+    int pow = 2;
+    int fac = 1;
+    for(int i = 2; i <= N-1; i++){
+        fac *= i;
+        fac %= MOD;
+        pow *= 2;
+        pow %= MOD;
+    }
+    fac *= N;
+    fac %= MOD;
+    cout << fac - pow << endl;
+
+
+}
+

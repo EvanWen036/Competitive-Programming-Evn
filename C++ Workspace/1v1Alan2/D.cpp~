@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define f first
+#define s second
+#define pb push_back
+#define mp make_pair
+typedef long long ll;
+typedef pair<int, int> pii;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    ll x, y, n;
+    cin >> x >> y >> n;
+    //x += mod;
+    //y += mod;
+    ll mod = 1000000007;
+    x += mod;
+    y += mod;
+    if(n == 1){
+        cout << x % mod << "\n";
+    }
+    else if(n == 2){
+        //cuut << y << "\n";
+        
+        cout << (y % mod) << "\n";
+    }
+    else{
+        if(n == 3){
+            cout << (y-x)%mod << "\n";
+        }
+        else{
+            int mo = n %= 3;
+            if(mo == 1){
+                cout << (n%2 == 0 ? -1:1 * x)%mod << "\n";
+            }
+            else if(mo == 2){
+                cout << (n%2 == 0 ? -1:1 * y)%mod << "\n";
+            }
+            else{
+                cout << (n%2 == 0 ? 1:-1 * (x+y))%mod << "\n";
+            }
+        }
+    }
+
+
+}
+

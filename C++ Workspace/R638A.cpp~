@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> pii;
+
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    int t;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        int g1 = 0;
+        int g2 = 0;
+        bool turn = false;
+        int pow = 2;
+        for(int i = 0; i < n/2; i++){
+            //cout << g1 << " " << g2 << endl;
+            if(!turn){
+                g1 += pow;
+                pow *= 2;
+                g2 += pow;
+                pow *= 2;
+            }
+            else{
+                g2 += pow;
+                pow *= 2;
+                g1 += pow;
+                pow *= 2;
+            }
+            turn = !turn;
+        }
+        cout << abs(g2 - g1) << endl;
+    }
+
+
+}
+

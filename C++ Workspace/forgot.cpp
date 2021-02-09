@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> pii;
+
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    int N, W;
+    cin >> N >> W;
+    string s;
+    cin >> s;
+    string words[W];
+    for(int i = 0; i < W; i++){
+        cin >> words[i];
+    }
+    string dp[N+1];
+    for(int i =1 ; i <= N; i++)dp[i] = "12345";
+    dp[0] = "";
+    for(int i = 0; i < N;i++){
+        if(dp[i] == "12345")continue;
+        for(int j = 0; j < W; j++){
+            if(i + words[j].length() <= N){
+                bool works = true;
+                for(int x = 0; x < words[j].length(); x++){
+                    if(!(s[i+x] == '?' || s[i+x] == words[j][x])){
+                        works = false;
+                        break;
+                    }
+                }
+                if(works){
+                    //cout << i << " " << words[j] << endl;
+                    if((dp[i] + words[j]).length() == i+words[j].length()){
+                        if(dp[i+words[j].length()] == "12345")dp[i+words[j].length()] = dp[i]+words[j];
+                        dp[i+words[j].length()] = min(dp[i+words[j].length()], dp[i] + words[j]);
+                    }
+
+                }
+            }
+
+        }
+    }
+    //cout << dp[11] << endl;
+    cout << dp[N] << endl;
+
+
+}
+

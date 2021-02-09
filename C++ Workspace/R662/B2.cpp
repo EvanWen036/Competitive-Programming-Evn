@@ -1,0 +1,103 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define f first
+//#define s second
+#define pb push_back
+#define mp make_pair
+typedef long long ll;
+typedef pair<int, int> pii;
+
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    int N;
+    cin >> N;
+    vector<int> A(N);
+    multiset<int> s;
+    map<int, int> map;
+    for(int i = 0; i < N;i ++){
+        cin >> A[i];
+        if(s.find(map[A[i]]) != s.end()){
+            s.erase(s.find(map[A[i]]));
+        }
+        map[A[i]]++;
+        s.insert(map[A[i]]);
+    }
+        int q;
+    cin >> q;
+    
+    for(int i = 0; i < q;i ++){
+        string op;
+        cin >> op;
+        int x;
+        cin >> x;
+        
+        if(op == "+"){
+            //add it
+            if(s.find(map[x]) != s.end()){
+                s.erase(s.find(map[x]));
+            }
+            map[x]++;
+            s.insert(map[x]);
+        }
+        else{
+            s.erase(s.find(map[x]));
+            map[x]--;
+            s.insert(map[x]);
+        }
+        //for(auto it : s){
+          //  cout << it << endl;
+        //}
+        //if(s.size() >= 3){
+            //vector<pii> erase;
+            //multiset<int> originalSet = s;
+            //set<int>::iterator it = s.end();
+            //int current = 4;
+            vector<pii> erase;
+            bool square = false;
+            bool rec = false;
+            bool rec2= false;
+            if(s.size() > 0 && *(--s.end()) >= 4){
+                square = true;
+                int val = *(--s.end());
+                s.erase(--s.end());
+                s.insert(val - 4);
+                erase.pb(mp(val-4, 4));
+            }
+            if(s.size() > 0 && *(--s.end()) >= 2){
+                rec = true;
+                int val = *(--s.end());
+                s.erase(--s.end());
+                s.insert(val - 2);
+                erase.pb(mp(val-2, 2));
+            }
+            if(s.size() > 0 && *(--s.end()) >= 2){
+                rec2 = true;
+                int val = *(--s.end());
+                s.erase(--s.end());
+                s.insert(val - 2);
+                erase.pb(mp(val-2, 2));
+            }
+
+            if(square && rec && rec2)cout << "Yes" << endl;
+            else{
+                cout << "No" << endl;
+            }
+            for(int i = erase.size()-1; i >= 0; i--){
+                pii x = erase[i];
+                s.erase(s.find(x.f));
+                s.insert(x.f+x.second);
+            }
+            //swap(s, uriginalSet);
+            //s=*originalSet;      
+            //for(auto it : 
+        //else{
+          //  cout << "No" << endl;
+        //}
+    }
+    
+
+
+}
+

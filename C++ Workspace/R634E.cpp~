@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> pii;
+
+int main(){
+
+	ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+	int t;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        vector<int> occ[205];
+        for(int i = 0; i< n; i++){
+            int x;
+            cin >> x;
+            //cout << x << endl;
+            occ[x].push_back(i);
+        }
+        int ans = 0;
+        for(int i = 0; i <= 200; i ++){
+            for(int j = 0; j <= 200; j++){
+                if(occ[i].size() == 0 || occ[j].size() == 0){
+                    continue;
+                }
+                if(i == j){
+                    ans = max(ans, (int)occ[i].size());
+                    continue;
+                }
+                vector<int> temp;
+                int a =0;
+                int b = 0;
+                while(a < (int)occ[i].size() || b < (int)occ[j].size()){
+                    if(a < (int)occ[i].size() && occ[i][a] < occ[j][b]){
+                        temp.push_back(0);
+                        a++;
+                    }
+                    else{
+                        temp.push_back(1);
+                        b++;
+                    }
+                }
+                //cout << "TEMP MADE" << i << " " << j << endl;
+                int x = 0;
+                int y = occ[j].size();
+                int l = 0;
+                int r = temp.size()-1;
+                while(l <= r){
+                    //cout << l << " " << r << endl;
+                    while(l < temp.size() && temp[l] != 0){
+                        y--;
+                        l++;
+                    }
+                    
+                    while(r >= 0 && temp[r] != 0){
+                        y--;
+                        r--;
+                    }
+                    if(temp[l] == 0){
+                        x++;
+                    }
+                    if(temp[r] == 0 && r != l){
+                        x++;
+                    }
+                    if(r == -1 || l == temp.size() || l > r)break;
+                    ans = max(ans, x + y);
+                    l++;
+                    r--;
+                    
+                }
+                temp.clear();
+                //cout << "TP MADE" << i << " " << j << " " << endl;
+
+            }
+        }
+        cout << ans << endl;
+    }
+
+
+}
+

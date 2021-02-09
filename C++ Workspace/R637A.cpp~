@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> pii;
+
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    int t;
+    cin >> t;
+    while(t--){
+        int n;
+        int a;
+        int b;
+        int c;
+        int d;
+        cin >> n >> a >>b >> c >> d;
+        int lowP = c-d;
+        int highP = c+d;
+        int r1 = a-b;
+        int r2 = a+b;
+        bool ans = false;
+        for(int i = r1; i <= r2; i++){
+            if(n * i >= lowP && n*i <= highP){
+                cout << "YES" << endl;
+                ans = true;
+                break;
+            }
+        }
+        if(!ans)cout << "NO" << endl;
+    }
+
+
+}
+

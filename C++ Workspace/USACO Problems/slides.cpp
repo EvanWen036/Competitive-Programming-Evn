@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> pii;
+
+int main(){
+
+	//ios_base::sync_with_stdio(false);
+	//cin.tie(NULL);
+    int N, M;
+    cin >> N >> M;
+    int x[N];
+    for(int i = 0; i < N; i ++){
+        cin >> x[i];
+    }
+    int indegree[N];
+    int outdegree[N];
+    memset(indegree, 0, sizeof(indegree));
+    memset(outdegree, 0, sizeof(outdegree));
+    vector<int> start;
+    vector<int> stop;
+    for(int i = 0; i < M; i++){
+        int a, b;
+        cin >> a >> b;
+        a--;
+        b--;
+        outdegree[a]++;
+        indegree[b]++;
+    }
+   
+    for(int i = 0; i < N; i++){
+        int difference = outdegree[i]-indegree[i];
+        if(difference<0){
+            difference *= -1;
+             for(int j = 0; j < difference; j++){
+                start.push_back(x[i]);  
+             }
+        }
+        else if(difference > 0){
+            for(int j = 0; j < difference; j++){
+                stop.push_back(x[i]);
+            }
+        }
+    }
+   
+    sort(start.begin(), start.end());
+    sort(stop.begin(), stop.end());
+    int ans = 0;
+    for(int i = 0; i < start.size(); i++){
+       ans += abs(stop[i]-start[i]);
+    }
+    cout << ans << endl;
+
+
+
+}
+

@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define f first
+#define s second
+#define pb push_back
+#define mp make_pair
+typedef long long ll;
+typedef pair<int, int> pii;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+void solve(int tc){
+    queue<pii> q;
+    int n, x;
+    cin >> n >> x;
+    vector<pii> a;
+    for(int i= 0;i  < n; i++){
+        int x;
+        cin >> x;
+        //a.pb(mp(x,i));
+        q.push({x,i+1});
+    }
+    //sort(a.begin(), a.end());
+    for(int i = 0; i < n; i++){
+        //q.push({a[i].f, a[i].s+1});
+    }
+    cout << "Case #" << tc << ": ";
+    while(!q.empty()){
+        int tp = q.front().f;
+        int curr = q.front().s;
+        q.pop();
+        //cout << curr << " ";
+        if(tp > x){
+            q.push({tp-x, curr});
+            continue;
+        }
+        cout << curr << " ";
+        
+    }
+   
+    cout << "\n";
+}
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int t;
+    cin >> t;
+    for(int tt =1; tt  <= t; tt++){
+        solve(tt);
+    }
+
+}
+

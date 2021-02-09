@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define f first
+#define s second
+#define pb push_back
+#define mp make_pair
+typedef long long ll;
+typedef pair<int, int> pii;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+vector<pii> adj[100005];
+int mst[100005];
+bool vis[100005];
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    int N, M;
+    cin >> N >> M;
+    for(int i = 1; i <= M;i ++){
+        int a, b, w;
+        cin >> a >> b >> w;
+        adj[a].pb(mp(b,w));
+        adj[b].pb(mp(a,w));
+    }
+    priority_queue<pii, vector<pii>, greater<pii>> pq;
+    for(int i = 2; i <= N;i ++)mst[i] = 100000000;
+    mst[1] = 0;
+    pq.push(mp(0,1));
+    while(!pq.empty()){
+        int u = pq.top().second; pq.pop();
+        vis[u]=true;
+        for(auto it : adj[u]){
+            if(!vis[it.f] && mst[it.f] > it.s){
+                mst[it.f] = it.s;
+                pq.push(mp(mst[it.f], it.f));
+            }
+        }
+    }
+    int ans = 0;
+    for(int i = 1; i <= N;i ++){
+        ans += mst[i];
+    }
+    cout << ans << "\n";
+}
+

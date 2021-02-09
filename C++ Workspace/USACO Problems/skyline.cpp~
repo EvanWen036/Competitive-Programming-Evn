@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> pii;
+
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    int N, W;
+    cin >> N >> W;
+    vector<int> xVal;
+    for(int i = 0; i < N; i++){
+        int x, y;
+        cin >> x >> y;
+        xVal.push_back(y);
+    }
+    bool inStack[W+1];
+    memset(inStack, false,sizeof(inStack));
+    stack<int> s;
+    int count = 0;
+    for(int i = 0; i < N; i++){
+        if(!inStack[xVal[i]]){
+            while(!s.empty() && s.top() > xVal[i]){
+                int x = s.top();
+                inStack[x] = false;
+                s.pop();
+            }
+            if(xVal[i] != 0){
+                inStack[xVal[i]] = true;
+                s.push(xVal[i]);
+                count++;
+            }
+        }
+    }
+    cout << count << endl;
+    
+
+
+}
+

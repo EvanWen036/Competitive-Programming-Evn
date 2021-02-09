@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define f first
+#define s second
+#define pb push_back
+#define mp make_pair
+typedef long long ll;
+typedef pair<int, int> pii;
+vector<int> x(3);
+vector<int> y(3);
+void solve(){
+    for(int i = 0; i < 3; i++){
+        cin >> x[i];
+    }
+    for(int i =0; i < 3; i++){
+        cin >> y[i];
+    }
+    //make 2 1 pairings
+    int ans = 0;
+    //int x = 0;
+    ans += 2 * min(x[2], y[1]);
+    x[2] -= min(x[2], y[1]);
+    y[1] -= min(x[2], y[1]);
+    //make 1 0 and 2 0 pairings
+    x[1] -= min(x[1], y[0]);
+    y[0] -= min(x[1], y[0]);
+    x[2] -= min(x[2], y[0]);
+    y[0] -= min(x[2], y[0]);
+    //make 0 0 1 1 2 2 pairings
+    for(int i = 0; i <= 2; i++){
+        x[i] -= min(x[i], y[i]);
+        y[i] -= min(x[i], y[i]);
+    }
+    ans -= 2 * min(x[1], y[2]);
+    cout << ans << endl;
+
+
+}
+int main(){
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+    int t;
+    cin >> t;
+    while(t--){
+        solve();
+    }
+
+
+}
+
