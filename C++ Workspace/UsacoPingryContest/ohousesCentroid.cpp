@@ -20,6 +20,8 @@ ll depth[50005];
 ll depth2[50005];
 ll anc[50005][30];
 int type[50005];
+ll di[50005];
+vector<int> ofType[1005];
 int get_centroid(int u, int p, int n){
 	for(pii v : adj[u]){
 		//if v has more than n/2
@@ -92,7 +94,6 @@ ll dist(int a, int b){
 	int an = lca(a,b);
 	return depth2[a] - depth2[an] + depth2[b] - depth2[an];
 }
-map<pii, ll> di;
 int main(){
 
 	ios_base::sync_with_stdio(false);
@@ -100,6 +101,7 @@ int main(){
 	cin >> N >> M;
 	for(int i = 1;i <= N;i ++){
 		cin >> type[i];
+		ofType[type[i]].pb(i);
 	}
 	for(int i = 1;i <= M;i ++){
 		ans[i] = 1e18;
@@ -121,20 +123,22 @@ int main(){
 			}
 		}
 	}	
-	for(int i = 1; i <= N;i ++){
-		//cout << parent[i] << '\n';
-		int curr = i;
-		while(curr != 0){
-			//cout << curr << '\n';
-			//cout << i << " " << curr << " " << lca(curr, i) << " " << dist(curr,i) << '\n';
-			if(di.count({curr, type[i]})){
-				ans[type[i]] = min(ans[type[i]], di[{curr,type[i]}] + dist(curr, i));
-				di[{curr,type[i]}] = min(di[{curr,type[i]}], dist(curr, i));
+	for(int i = 1; i <= N; i++)di[i] = 1e15;
+	for(int i =  1;i <= M;i ++){
+		vector<int> fix;
+		for(int u : ofType[i]){
+			int curr = u;
+			while(curr != 0){
+				fix.pb(curr);
+				if(di[curr] != 1e15){
+					ans[i] = min(ans[i], di[curr] + dist(curr, u));
+				}
+				di[curr] = min(di[curr], dist(curr,u));
+				curr=parent[curr];
 			}
-			else{
-				di[{curr,type[i]}] = dist(curr,i);
-			}
-			curr = parent[curr];
+		}
+		for(int u : fix){
+			di[u] = 1e15;
 		}
 	}
 	for(int i = 1; i <= M;i ++){
