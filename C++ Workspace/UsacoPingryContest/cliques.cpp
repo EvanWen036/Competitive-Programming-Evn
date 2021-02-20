@@ -41,7 +41,7 @@ ll binpow(int bs, int exp){
 		return temp * temp % mod;
 	}
 }
-int main(){
+signed main(){
 
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);

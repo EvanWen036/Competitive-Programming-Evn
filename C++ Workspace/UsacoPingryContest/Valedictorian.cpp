@@ -37,7 +37,7 @@ int main(){
     int ans = 0;
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
-            if(cnt[i][j] >= (K+1)/2)ans++;
+            if(cnt[i][j] >= K/2 + 1)ans++;
         }
     }
     

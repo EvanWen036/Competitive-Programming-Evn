@@ -22,7 +22,6 @@ int main(){
 		cin >> pts[i].f >> pts[i].s;
 	}
 	int ans = 1e9;
-
 	for(int i = 0; i < N ;i++){
 		for(int j = i + 1; j < N; j++){
 			for(int k = j+1; k < N; k++){
