@@ -1,18 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define f first
-#define s second
-#define pb push_back
-#define mp make_pair
-typedef long long ll;
-typedef pair<ll, ll> pii;
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-ll dp[605][55];
-ll mdist(pii a, pii b){
-	return abs(a.f - b.f) + abs(a.s - b.s);
+
+long long maxDist[605][55];
+long long mdist(pair<int,int> a, pair<int,int> b){
+	return abs(a.first - b.first) + abs(a.second - b.second);
 }
 int main(){
 
@@ -20,27 +11,27 @@ int main(){
 	cin.tie(NULL);
 	int N, K;
 	cin >> N >> K;
-	vector<pii> pts(N);
+	vector<pair<long long,long long>> pts(N);
 	for(int i = 0; i < N; i++){
-		cin >> pts[i].f >> pts[i].s;
+		cin >> pts[i].first >> pts[i].second;
 	}
 	sort(pts.begin(), pts.end());
+	long long ans = 0;
+	//maxDist[i][k] is the maximum dist if you use the i'th element as the k'th element in the included set
 	for(int i = 1; i <= N; i++){
 		for(int k = 1; k <= i && k <= K;k ++){
 			//use the i'th as the k'th 
 			for(int x = 1; x < i; x++){
-				ll dist = mdist(pts[i-1], pts[x-1]);
+				long long dist = mdist(pts[i-1], pts[x-1]);
 				if(k==1)dist = 0;
-				dp[i][k] = max(dp[i][k], dp[x][k-1] + dist);
+				//DP transitions
+				//The last chosen person was at position x and there were previously only k-1 people included
+				//Now we take this summed with the distance between people i and x to get a possible value for maxDist[i][k]
+				maxDist[i][k] = max(maxDist[i][k], maxDist[x][k-1] + dist);
 			}
-			//cout << dp[i][k] << " ";
 		}
-		//cout << '\n';
-	}
-	ll ans = 0;
-	for(int i = 1; i <= N;i ++){
-		ans = max(ans, dp[i][K]);
-
+		//update the answer. the answer is maxDist[i][K] for any i
+		ans = max(ans, maxDist[i][K]);
 	}
 	cout << ans << '\n';
 

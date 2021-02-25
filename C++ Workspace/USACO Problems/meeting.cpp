@@ -8,7 +8,8 @@ typedef long long ll;
 typedef pair<int, int> pii;
 
 int main(){
-
+	freopen("meeting.in", "r", stdin);
+	freopen("meeting.out", "w", stdout);
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
     int N, M;

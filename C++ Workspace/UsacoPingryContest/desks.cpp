@@ -1,26 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define f first
-#define s second
-#define pb push_back
-#define mp make_pair
-typedef long long ll;
-typedef pair<int, int> pii;
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
 int N, M;
 vector<int> desks;
+//checking function
 bool ok(int x){
 	int placed = 0;
+	//prev is the coordinate of the previous desk placed
 	int prev = -1;
 	for(int i = 0; i < N; i++){
 		if(prev == -1 || desks[i] - prev >= x){
+			//can place this desk so greedily place it 
 			placed++;
 			prev = desks[i];
 		}
 	}
+	//if placed over M desks this value of x works
 	return placed >= M;
 }
 int main(){
@@ -31,16 +26,21 @@ int main(){
 	for(int i = 0;i < N;i ++){
 		int x;
 		cin >> x;
-		desks.pb(x);
+		desks.push_back(x);
 	}
+	//sort the coordinates of the desks
 	sort(desks.begin(), desks.end());
 	int lo = 0;
 	int hi = 1e9;
+	//binary search on the answer
 	while(lo < hi){
+		//do lo+hi+1 to avoid infinite loop
 		int mi = (lo+hi+1)/2;
+		//if the middle point works then the answer might be higher
 		if(ok(mi)){
 			lo = mi;
 		}
+		//otherwise the answer is definitely lower
 		else{
 			hi = mi-1;
 		}

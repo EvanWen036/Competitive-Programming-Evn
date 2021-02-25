@@ -11,8 +11,8 @@ typedef pair<int, int> pii;
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
 template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-const int maxSz = 3005;
-vector<string> possible[maxSz];
+const int maxSz = 3005
+;vector<string> possible[maxSz];
 set<string> val[maxSz];
 vector<string> bad[105];
 int main(){

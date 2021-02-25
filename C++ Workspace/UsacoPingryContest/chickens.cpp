@@ -1,15 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define f first
-#define s second
-#define pb push_back
-#define mp make_pair
-typedef long long ll;
-typedef pair<int, int> pii;
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
 
 int main(){
 
@@ -17,18 +8,27 @@ int main(){
 	cin.tie(NULL);
 	int N;
 	cin >> N;
-	vector<pii> pts(N);
+	vector<pair<int,int>> pts(N);
+	//This is Evan's solution which uses the c++ pair for points
+	//pts[i].first = the i'th cow's x coordinate
+	//pts[i].second = the i'th cow's y coordinate
 	for(int i = 0; i < N;i ++){
-		cin >> pts[i].f >> pts[i].s;
+		cin >> pts[i].first >> pts[i].second;
 	}
 	int ans = 1e9;
+	//iterate through all ordered triples
+	//find the coordinates of the bounding rectangles
 	for(int i = 0; i < N ;i++){
 		for(int j = i + 1; j < N; j++){
 			for(int k = j+1; k < N; k++){
-				int x1 = max(pts[i].f, max(pts[j].f, pts[k].f));
-				int x2 = min(pts[i].f, min(pts[j].f, pts[k].f));
-				int y1 = max(pts[i].s, max(pts[j].s, pts[k].s));
-				int y2 = min(pts[i].s, min(pts[j].s, pts[k].s));
+				//rightmost point
+				int x1 = max(pts[i].first, max(pts[j].first, pts[k].first));
+				//left most point
+				int x2 = min(pts[i].first, min(pts[j].first, pts[k].first));
+				//highest point
+				int y1 = max(pts[i].second, max(pts[j].second, pts[k].second));
+				//lowest point
+				int y2 = min(pts[i].second, min(pts[j].second, pts[k].second));
 				ans = min(ans, (y1-y2)*(x1-x2));
 			}
 		}

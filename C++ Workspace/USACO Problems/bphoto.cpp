@@ -16,7 +16,8 @@ int query(int ind){
     return sum;
 }
 int main(){
-
+	freopen("bphoto.in", "r", stdin);
+	freopen("bphoto.out", "w", stdout);
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	int N;
