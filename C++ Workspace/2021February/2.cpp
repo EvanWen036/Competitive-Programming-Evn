@@ -13,8 +13,6 @@ using namespace __gnu_pbds;
 template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 int N;
 int arr[305];
-int prefix[305][305];
-int mx[305][305];
 int dp[305][305][2];
 int go(int l, int r, int type){
 	//cout << l << " " << r << '\n';
@@ -66,25 +64,6 @@ int main(){
 		for(int j = 1; j <= N;j ++){
 			dp[i][j][0] = 1e9;
 			dp[i][j][1] = 1e9;
-			prefix[i][j] = prefix[i-1][j];
-		}
-		prefix[i][arr[i]]++;
-	}
-	for(int i = 1; i <= N;i ++){
-		for(int j = i; j <= N;j ++){
-			int mxCount = 0;
-			int col = 0;
-			for(int c = 1; c <= N; c++){
-				int amt = prefix[j][c] - prefix[i-1][c];
-				if(amt > mxCount){
-					mxCount = amt;
-					col = c;
-				}
-			}	
-
-			mx[i][j] = col;
-			//cout << i << " " << j << " " << mx[i][j] << '\n';
-			//cout << i << " " << j << " " << mx[i][j] << '\n';
 		}
 	}
 	cout << 1+min(go(1,N,0), go(1,N,1)) << '\n';
