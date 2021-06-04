@@ -10,9 +10,12 @@ typedef pair<int, int> pii;
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
 template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
 ll minDist[50005][1005];
+//m1 stores the two smallest distances from children
 ll m1[1005][2];
 ll ans[1005];
+//which type each node is 
 int t[50005];
 int M;
 vector<pair<int,long>> adj[50005];
@@ -23,14 +26,16 @@ void dfs(int node, int par){
 		if(u == par)continue;
 		dfs(u, node);
 	}
-	//do the checkings here
+	//set m1 to inifinity
 	for(int i = 1;i <= M; i++){
 		m1[i][0] = 1e18;
 		m1[i][1] = 1e18;
 	}
+	//m1 for every color stores the shortest distance from the current node to a node of the given color
 	for(pii e : adj[node]){
 		int u = e.f;
 		for(int j = 1; j <= M; j++){
+			
 			if(minDist[u][j]+e.s < m1[j][0]){
 				swap(m1[j][0], m1[j][1]);
 				m1[j][0] = minDist[u][j]+e.s;
@@ -42,10 +47,12 @@ void dfs(int node, int par){
 	}
 	minDist[node][t[node]] = 0;
 	for(int i = 1; i <= M; i++){
-		//two from subtree
+		//if current node is of desired color
+		//can pair up the shortest of this color with the current node
 		if(i == t[node] && m1[i][0] != 1000000){
 			ans[t[node]] = min(ans[i],m1[i][0]);
 		}
+		//pair up two nodes from subtree
 		if(m1[i][0] != 1000000 && m1[i][1] != 1000000){
 			ans[i] = min(ans[i], m1[i][0] + m1[i][1]);
 		}

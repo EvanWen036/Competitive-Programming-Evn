@@ -12,16 +12,22 @@ typedef pair<int, int> pii;
 using namespace __gnu_pbds;
 template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 int N, M;
+
 set<pii> adj[50005];
 int sub[50005];
 int parent[50005];
 ll ans[50005];
+//depth is number of edges to root
 ll depth[50005];
+//depth2 is the sum of edge weights to root
 ll depth2[50005];
+//lca table
 ll anc[50005][30];
 int type[50005];
 ll di[50005];
 vector<int> ofType[1005];
+
+//centroid decomp
 int get_centroid(int u, int p, int n){
 	for(pii v : adj[u]){
 		//if v has more than n/2
@@ -39,6 +45,7 @@ int dfs(int u, int p){
 	}
 	return sub[u];
 }
+//calculate depth and depth2
 void dfs2(int u, int p){
 	for(pii v : adj[u]){
 		if(v.f != p){
@@ -63,6 +70,7 @@ void build(int u, int p){
 		build(v.f, centroid);
 	}
 }
+//lca implementation
 int walk(int i, int k){
     for(int d =0; d <= 25 && i != -1; d++){
         if(((1<<d) & k)){
@@ -90,6 +98,7 @@ int lca(int i, int j){
     }
     return anc[i][0];
 }
+//find dist between two nodes using depth2
 ll dist(int a, int b){
 	int an = lca(a,b);
 	return depth2[a] - depth2[an] + depth2[b] - depth2[an];
@@ -112,9 +121,11 @@ int main(){
 		adj[a].insert({b,c});
 		adj[b].insert({a,c});
 	}
+	//get the depths before building centroid tree
 	dfs2(1,0);
 	build(1,0);
 
+	//fill out the lca table
 	for(int j = 1;j <= 29;j ++){
 		for(int i = 1; i <= N;i ++){
 			int mid = anc[i][j-1];
@@ -124,8 +135,11 @@ int main(){
 		}
 	}	
 	for(int i = 1; i <= N; i++)di[i] = 1e15;
+	//look at nodes for each color
 	for(int i =  1;i <= M;i ++){
 		vector<int> fix;
+		//for all nodes that have color i
+		//di[x] will be shortest distance from a descendant(with color i) of node x in the centroid decomp tree
 		for(int u : ofType[i]){
 			int curr = u;
 			while(curr != 0){
@@ -137,6 +151,8 @@ int main(){
 				curr=parent[curr];
 			}
 		}
+		//reset all the di values to 1e15
+		//at most logN values to "fix"
 		for(int u : fix){
 			di[u] = 1e15;
 		}
