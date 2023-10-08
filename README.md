@@ -1,2 +1,2 @@
 # Competitive-Programming-Evn
-Random cp programs enjoy!
+Random competitive programming programs enjoy! Mostly from USACO/CF
